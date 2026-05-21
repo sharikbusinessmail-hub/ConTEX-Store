@@ -45,7 +45,7 @@ const slides = [
   {
     type: "story",
     image:
-      "https://hzyfijvdnkjgahwhtvnv.supabase.co/storage/v1/object/sign/Hero/carousal.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hOTY2NWE2Ny1jMDg2LTQ0ZDgtYmM0Ni01NWZhYWQzZWM1OWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL2Nhcm91c2FsLmpwZyIsImlhdCI6MTc3OTM4MDEwMSwiZXhwIjoxODEwOTE2MTAxfQ.n1v5B2QcM-IDfXEulk5ClUELQkaZD9IH3GT0svByitE",
+      "https://hzyfijvdnkjgahwhtvnv.supabase.co/storage/v1/object/sign/Hero/carousal%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hOTY2NWE2Ny1jMDg2LTQ0ZDgtYmM0Ni01NWZhYWQzZWM1OWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL2Nhcm91c2FsICgxKS5qcGciLCJpYXQiOjE3NzkzODEwMjcsImV4cCI6MTgxMDkxNzAyN30.Gi8FyAj9SrKLkDMD8hpSPmeY_2sZnFhuTzSSqOGSFHA",
     overlay: "bg-black/50",
     content: (
       <div className="text-center max-w-3xl mx-auto">
@@ -77,7 +77,7 @@ const slides = [
   {
     type: "trends",
     image:
-      "https://hzyfijvdnkjgahwhtvnv.supabase.co/storage/v1/object/sign/Hero/Screenshot%202026-05-21%20213654.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hOTY2NWE2Ny1jMDg2LTQ0ZDgtYmM0Ni01NWZhYWQzZWM1OWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL1NjcmVlbnNob3QgMjAyNi0wNS0yMSAyMTM2NTQucG5nIiwiaWF0IjoxNzc5MzgwMTc4LCJleHAiOjE4MTA5MTYxNzh9.Ev_T4W-zn0yXOqwTMklE2nS_N5Lai_LedtrOFuCePJs",
+      "https://hzyfijvdnkjgahwhtvnv.supabase.co/storage/v1/object/sign/Hero/alysa.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hOTY2NWE2Ny1jMDg2LTQ0ZDgtYmM0Ni01NWZhYWQzZWM1OWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL2FseXNhLmpwZyIsImlhdCI6MTc3OTM4MTEwOSwiZXhwIjoxODEwOTE3MTA5fQ.gpb8OpkM-Eo8IMkW-j5rcir_XEEsbhGKmSSMkHL2ZIE",
     overlay: "bg-black/50",
     content: (
       <div className="text-center max-w-3xl mx-auto">
@@ -88,7 +88,7 @@ const slides = [
           Trending <span className="italic text-amber-400">Now</span>.
         </h1>
         <p className="text-neutral-200 text-lg max-w-xl mx-auto mb-10">
-          ConTEX: Where fashion finds its next trend. Explore the collection.
+          <span className="lowercase text-white">con</span><span className="uppercase text-amber-400">TEX</span>: Where fashion finds its next trend. Explore the collection.
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
           <Link to="/category/women">
