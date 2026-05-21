@@ -7,7 +7,8 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { toast } from "sonner";
-import { Product, updateProduct, uploadImage, Variant } from "../../lib/api";
+// IMPORT deleteImage
+import { Product, updateProduct, uploadImage, deleteImage, Variant } from "../../lib/api";
 import { CATEGORIES, CategoryKey, BRANDS } from "../../lib/catalog";
 
 type Props = { 
@@ -28,6 +29,10 @@ export function EditProductForm({ product, onClose, onUpdated }: Props) {
   
   const [price, setPrice] = useState(String(product.price));
   const [images, setImages] = useState<string[]>(product.images && product.images.length > 0 ? product.images : [product.imageUrl]);
+  
+  // NEW: Keep track of images uploaded during THIS edit session
+  const [newUploads, setNewUploads] = useState<string[]>([]);
+  
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [bulkPricing, setBulkPricing] = useState<{ minQty: number; price: number }[]>(product.bulkPricing || []);
@@ -40,6 +45,7 @@ export function EditProductForm({ product, onClose, onUpdated }: Props) {
     try {
       const { url } = await uploadImage(file);
       setImages((prev) => [...prev, url]);
+      setNewUploads((prev) => [...prev, url]); // Track new uploads
       toast.success("Image uploaded to Supabase Storage");
     } catch (err) {
       console.error("Upload failed", err);
@@ -49,7 +55,25 @@ export function EditProductForm({ product, onClose, onUpdated }: Props) {
     }
   }
 
-  function removeImage(index: number) { setImages(images.filter((_, i) => i !== index)); }
+  // NEW: Delete image from bucket if it was uploaded just now
+  async function removeImage(index: number) { 
+    const imgToRemove = images[index];
+    setImages(images.filter((_, i) => i !== index)); 
+    
+    if (newUploads.includes(imgToRemove)) {
+      await deleteImage(imgToRemove);
+      setNewUploads(newUploads.filter(url => url !== imgToRemove));
+    }
+  }
+  
+  // NEW: Handle Cancel button to clean up stranded uploads
+  async function handleCancel() {
+    for (const url of newUploads) {
+      await deleteImage(url);
+    }
+    onClose();
+  }
+
   function addTier() { setBulkPricing([...bulkPricing, { minQty: 10, price: 0 }]); }
   function updateTier(i: number, patch: Partial<{ minQty: number; price: number }>) { setBulkPricing(bulkPricing.map((t, idx) => (idx === i ? { ...t, ...patch } : t))); }
   function removeTier(i: number) { setBulkPricing(bulkPricing.filter((_, idx) => idx !== i)); }
@@ -97,7 +121,8 @@ export function EditProductForm({ product, onClose, onUpdated }: Props) {
     <Card className="bg-neutral-900 border-white/10 text-white mb-8 shadow-2xl">
       <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-4">
         <CardTitle className="text-xl text-amber-400">Editing: {product.name}</CardTitle>
-        <Button variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5 text-neutral-400 hover:text-white" /></Button>
+        {/* Update top X button to handleCancel */}
+        <Button variant="ghost" size="icon" onClick={handleCancel}><X className="w-5 h-5 text-neutral-400 hover:text-white" /></Button>
       </CardHeader>
       <CardContent className="pt-6">
         <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
@@ -194,7 +219,8 @@ export function EditProductForm({ product, onClose, onUpdated }: Props) {
               </div>
             </div>
             <div className="flex justify-end gap-3 pt-4 border-t border-white/5">
-              <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+              {/* Update Cancel button to handleCancel */}
+              <Button type="button" variant="ghost" onClick={handleCancel}>Cancel</Button>
               <Button type="submit" disabled={submitting} className="bg-amber-400 text-black hover:bg-amber-500 px-8 font-bold">{submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Changes"}</Button>
             </div>
           </div>

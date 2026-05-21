@@ -161,3 +161,21 @@ export async function updateOrder(id: string, patch: Partial<Order>): Promise<Or
   const data = await handle<{ order: Order }>(res, "updateOrder");
   return data.order;
 }
+
+// NEW: Delete Image from Supabase Bucket
+export async function deleteImage(imageUrl: string): Promise<void> {
+  try {
+    const path = imageUrl.split('/').pop();
+    if (!path) return;
+    
+    const { error } = await supabase.storage
+      .from("images")
+      .remove([path]);
+      
+    if (error) {
+      console.error("Failed to delete image from bucket", error);
+    }
+  } catch (err) {
+    console.error("Deletion error:", err);
+  }
+}

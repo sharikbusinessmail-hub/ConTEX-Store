@@ -7,7 +7,8 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { toast } from "sonner";
-import { createProduct, uploadImage, Variant } from "../../lib/api";
+// IMPORT deleteImage
+import { createProduct, uploadImage, deleteImage, Variant } from "../../lib/api";
 import { CATEGORIES, CategoryKey, BRANDS } from "../../lib/catalog";
 
 type Props = { onCreated: () => void };
@@ -44,7 +45,13 @@ export function AddProductForm({ onCreated }: Props) {
     }
   }
 
-  function removeImage(index: number) { setImages(images.filter((_, i) => i !== index)); }
+  // NEW: Make async and call deleteImage
+  async function removeImage(index: number) { 
+    const imgToRemove = images[index];
+    setImages(images.filter((_, i) => i !== index)); 
+    await deleteImage(imgToRemove);
+  }
+  
   function addTier() { setBulkPricing([...bulkPricing, { minQty: 10, price: 0 }]); }
   function updateTier(i: number, patch: Partial<{ minQty: number; price: number }>) { setBulkPricing(bulkPricing.map((t, idx) => (idx === i ? { ...t, ...patch } : t))); }
   function removeTier(i: number) { setBulkPricing(bulkPricing.filter((_, idx) => idx !== i)); }
@@ -174,12 +181,10 @@ export function AddProductForm({ onCreated }: Props) {
                   <div key={i} className="grid grid-cols-[1fr_1fr_90px_auto] gap-2 items-end p-3 border border-white/10 rounded-lg bg-neutral-950">
                     <div className="space-y-1">
                       <Label className="text-xs text-neutral-400">Size</Label>
-                      {/* NEW: Input instead of Select */}
                       <Input placeholder="e.g. 32, XL, Free" className="bg-neutral-900 border-white/10 h-8 text-sm text-white" value={v.size} onChange={(e) => updateVariant(i, { size: e.target.value })} />
                     </div>
                     <div className="space-y-1">
                       <Label className="text-xs text-neutral-400">Color</Label>
-                      {/* NEW: Input instead of Select */}
                       <Input placeholder="e.g. Navy, Red, #ff0000" className="bg-neutral-900 border-white/10 h-8 text-sm text-white" value={v.color} onChange={(e) => updateVariant(i, { color: e.target.value })} />
                     </div>
                     <div className="space-y-1"><Label className="text-xs text-neutral-400">Stock</Label><Input type="number" className="bg-neutral-900 border-white/10 h-8" value={v.stock} onChange={(e) => updateVariant(i, { stock: Number(e.target.value) })} /></div>
