@@ -31,7 +31,7 @@ const BUCKET = "make-8d4aec83-products";
     const { data: buckets } = await supabase.storage.listBuckets();
     const exists = buckets?.some((b) => b.name === BUCKET);
     if (!exists) {
-      await supabase.storage.createBucket(BUCKET, { public: false });
+      await supabase.storage.createBucket(BUCKET, { public: true });
       console.log(`Created bucket ${BUCKET}`);
     }
   } catch (e) {
