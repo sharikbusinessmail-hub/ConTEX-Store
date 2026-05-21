@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap');
+
+:root {
+  --font-display: 'Playfair Display', serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Bebas Neue', sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  letter-spacing: 0.01em;
+}
+
+.font-display { font-family: var(--font-display); }
+.font-heading { font-family: var(--font-heading); letter-spacing: 0.05em; }
