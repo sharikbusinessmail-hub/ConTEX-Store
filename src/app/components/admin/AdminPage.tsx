@@ -176,7 +176,7 @@ export function AdminPage() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-display tracking-tight">
-              <span className="italic text-amber-400">SJ</span> Admin Portal
+              <span className="lowercase text-white">con</span><span className="uppercase text-amber-400">TEX</span> Admin Portal
             </h1>
             <p className="text-xs text-neutral-400">Private — owner access only</p>
           </div>

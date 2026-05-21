@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import { AdminPage } from "./components/admin/AdminPage";
 import { AdminLogin } from "./components/admin/AdminLogin";
 import { supabase } from "./lib/api";
+
 // 1. Create a wrapper to protect the admin route
 function ProtectedAdminRoute() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -73,7 +74,7 @@ export const router = createHashRouter([
   { 
     element: <ProtectedAdminRoute />, 
     children: [
-      { path: "/sj-admin-portal-2026", Component: AdminPage }
+      { path: "/contex-admin-portal", Component: AdminPage }
     ]
   },
 ]);

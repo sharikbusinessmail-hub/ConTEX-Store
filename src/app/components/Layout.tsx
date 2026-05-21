@@ -61,7 +61,7 @@ export function Layout() {
             </button>
 
             <Link to="/" className="font-display text-3xl tracking-tight">
-              <span className="italic text-amber-400">SJ</span> Fashion
+              <span className="lowercase text-white">con</span><span className="uppercase text-amber-400">TEX</span>
             </Link>
           </div>
 
@@ -129,7 +129,7 @@ export function Layout() {
       >
         <div className="p-6 flex items-center justify-between border-b border-white/10">
           <Link to="/" className="font-display text-2xl tracking-tight" onClick={() => setIsMobileMenuOpen(false)}>
-            <span className="italic text-amber-400">SJ</span> Fashion
+            <span className="lowercase text-white">con</span><span className="uppercase text-amber-400">TEX</span>
           </Link>
           <button onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-400 hover:text-white transition">
             <X className="w-6 h-6" />
@@ -175,7 +175,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-10">
         <div>
           <h3 className="font-display text-2xl mb-3">
-            <span className="italic text-amber-400">SJ</span> Fashion
+            <span className="lowercase text-white">con</span><span className="uppercase text-amber-400">TEX</span>
           </h3>
           <p className="text-sm text-neutral-400">
             Your destination for trending fashion. Curated styles for men, women, and kids.
@@ -209,7 +209,7 @@ function Footer() {
         </div>
       </div>
       <p className="text-center text-xs text-neutral-600 mt-12">
-        © 2026 SJ Fashion Store · All rights reserved
+        © 2026 ConTEX · All rights reserved
       </p>
     </footer>
   );
