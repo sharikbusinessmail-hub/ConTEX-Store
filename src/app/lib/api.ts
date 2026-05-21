@@ -6,7 +6,7 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const BASE = `https://${projectId}.supabase.co/functions/v1/make-server-8d4aec83`;
+const BASE = `https://${projectId}.supabase.co/functions/v1/server`;
 
 const authHeaders = () => ({
   Authorization: `Bearer ${publicAnonKey}`,
