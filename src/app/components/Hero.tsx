@@ -9,16 +9,16 @@ const slides = [
   {
     type: "logo",
     image:
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&q=80",
+      "https://hzyfijvdnkjgahwhtvnv.supabase.co/storage/v1/object/sign/Hero/store%20front.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hOTY2NWE2Ny1jMDg2LTQ0ZDgtYmM0Ni01NWZhYWQzZWM1OWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL3N0b3JlIGZyb250LmpwZyIsImlhdCI6MTc3OTM4MDA1MywiZXhwIjoxODEwOTE2MDUzfQ.4y-s1MGRtUFRgA6fxgVyJImm2ySxf_m2_NsTYSK3iaQ",
     overlay:
       "bg-gradient-to-r from-black via-black/70 to-transparent",
     content: (
       <div className="text-left max-w-2xl">
         <p className="text-amber-400 tracking-[0.4em] text-sm uppercase mb-6">
-          Est. 2019 · Premium Fashion
+          Est. 2026 · Premium Fashion
         </p>
         <h1 className="font-display text-7xl md:text-8xl text-white mb-6 leading-none">
-          <span className="italic text-amber-400">SJ</span> Fashion
+          <span className="lowercase text-white">con</span><span className="uppercase text-amber-400">TEX</span>
         </h1>
         <p className="text-neutral-300 text-lg max-w-md mb-10 font-light">
           Where elegance meets everyday. Discover handpicked styles crafted for the modern wardrobe.
@@ -45,7 +45,7 @@ const slides = [
   {
     type: "story",
     image:
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1920&q=80",
+      "https://hzyfijvdnkjgahwhtvnv.supabase.co/storage/v1/object/sign/Hero/carousal.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hOTY2NWE2Ny1jMDg2LTQ0ZDgtYmM0Ni01NWZhYWQzZWM1OWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL2Nhcm91c2FsLmpwZyIsImlhdCI6MTc3OTM4MDEwMSwiZXhwIjoxODEwOTE2MTAxfQ.n1v5B2QcM-IDfXEulk5ClUELQkaZD9IH3GT0svByitE",
     overlay: "bg-black/50",
     content: (
       <div className="text-center max-w-3xl mx-auto">
@@ -73,6 +73,39 @@ const slides = [
       </div>
     ),
   },
+
+  {
+    type: "trends",
+    image:
+      "https://hzyfijvdnkjgahwhtvnv.supabase.co/storage/v1/object/sign/Hero/Screenshot%202026-05-21%20213654.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hOTY2NWE2Ny1jMDg2LTQ0ZDgtYmM0Ni01NWZhYWQzZWM1OWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJIZXJvL1NjcmVlbnNob3QgMjAyNi0wNS0yMSAyMTM2NTQucG5nIiwiaWF0IjoxNzc5MzgwMTc4LCJleHAiOjE4MTA5MTYxNzh9.Ev_T4W-zn0yXOqwTMklE2nS_N5Lai_LedtrOFuCePJs",
+    overlay: "bg-black/50",
+    content: (
+      <div className="text-center max-w-3xl mx-auto">
+        <p className="text-amber-400 tracking-[0.4em] text-sm uppercase mb-6">
+          The Textured Collective
+        </p>
+        <h1 className="font-display text-6xl md:text-7xl text-white mb-6 leading-tight">
+          Trending <span className="italic text-amber-400">Now</span>.
+        </h1>
+        <p className="text-neutral-200 text-lg max-w-xl mx-auto mb-10">
+          ConTEX: Where fashion finds its next trend. Explore the collection.
+        </p>
+        <div className="flex gap-4 justify-center flex-wrap">
+          <Link to="/category/women">
+            <Button size="lg" className="bg-amber-400 hover:bg-amber-500 text-black font-semibold px-8">
+              Shop Women
+            </Button>
+          </Link>
+          <Link to="/category/men">
+            <Button size="lg" className="bg-white hover:bg-neutral-200 text-black font-semibold px-8">
+              Shop Men
+            </Button>
+          </Link>
+        </div>
+      </div>
+    ),
+  },
+
 ];
 
 export function Hero() {

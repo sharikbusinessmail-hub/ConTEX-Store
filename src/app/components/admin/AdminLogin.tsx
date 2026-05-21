@@ -28,7 +28,7 @@ export function AdminLogin() {
       setLoading(false);
     } else {
       toast.success("Welcome back, Admin.");
-      navigate("/sj-admin-portal-2026"); // Redirect to the secure admin page
+      navigate("/contex-admin-portal"); // Redirect to the new secure admin page
     }
   };
 
@@ -37,7 +37,7 @@ export function AdminLogin() {
       <Card className="w-full max-w-md bg-neutral-900 border-white/10 text-white shadow-2xl">
         <CardHeader className="space-y-2 text-center pb-6">
           <CardTitle className="text-3xl font-display tracking-tight">
-            <span className="italic text-amber-400">SJ</span> Admin
+            <span className="lowercase text-white">con</span><span className="uppercase text-amber-400">TEX</span> Admin
           </CardTitle>
           <CardDescription className="text-neutral-400">
             Enter your credentials to access the portal
@@ -54,7 +54,7 @@ export function AdminLogin() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="bg-neutral-950 border-white/10 text-white focus-visible:ring-amber-400"
-                placeholder="admin@sjfashion.com"
+                placeholder="admin@contex.com"
               />
             </div>
             <div className="space-y-2">
