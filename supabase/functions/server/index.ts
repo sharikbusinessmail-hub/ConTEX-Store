@@ -2,7 +2,8 @@ import { Hono } from "npm:hono";
 import { cors } from "npm:hono/cors";
 import { logger } from "npm:hono/logger";
 import { createClient } from "npm:@supabase/supabase-js@2";
-import * as kv from "./kv_store.tsx";
+// Ensure your kv file is named exactly like this in the folder:
+import * as kv from "./kv_store.ts"; 
 
 const app = new Hono();
 
@@ -23,7 +24,8 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
 );
 
-const BUCKET = "make-8d4aec83-products";
+// Pointing to your public images bucket
+const BUCKET = "images";
 
 // Ensure storage bucket exists on startup
 (async () => {
@@ -31,6 +33,7 @@ const BUCKET = "make-8d4aec83-products";
     const { data: buckets } = await supabase.storage.listBuckets();
     const exists = buckets?.some((b) => b.name === BUCKET);
     if (!exists) {
+      // Ensuring it forces public visibility if it creates it
       await supabase.storage.createBucket(BUCKET, { public: true });
       console.log(`Created bucket ${BUCKET}`);
     }
@@ -39,10 +42,10 @@ const BUCKET = "make-8d4aec83-products";
   }
 })();
 
-app.get("/make-server-8d4aec83/health", (c) => c.json({ status: "ok" }));
+app.get("/server/health", (c) => c.json({ status: "ok" }));
 
 // Upload a product image.
-app.post("/make-server-8d4aec83/upload", async (c) => {
+app.post("/server/upload", async (c) => {
   try {
     const form = await c.req.formData();
     const file = form.get("file");
@@ -55,18 +58,16 @@ app.post("/make-server-8d4aec83/upload", async (c) => {
     const { error: upErr } = await supabase.storage
       .from(BUCKET)
       .upload(path, buf, { contentType: file.type, upsert: false });
+    
     if (upErr) {
       console.log(`Storage upload error for ${path}: ${upErr.message}`);
       return c.json({ error: `Upload failed: ${upErr.message}` }, 500);
     }
-    const { data: signed, error: signErr } = await supabase.storage
-      .from(BUCKET)
-      .createSignedUrl(path, 60 * 60 * 24 * 365);
-    if (signErr || !signed) {
-      console.log(`Signing error for ${path}: ${signErr?.message}`);
-      return c.json({ error: `Sign URL failed: ${signErr?.message}` }, 500);
-    }
-    return c.json({ path, url: signed.signedUrl });
+    
+    // Use getPublicUrl instead of SignedURL for permanent public visibility
+    const { data: publicUrlData } = supabase.storage.from(BUCKET).getPublicUrl(path);
+    
+    return c.json({ path, url: publicUrlData.publicUrl });
   } catch (e) {
     console.log(`Upload route error: ${e}`);
     return c.json({ error: `Upload route error: ${e}` }, 500);
@@ -74,7 +75,7 @@ app.post("/make-server-8d4aec83/upload", async (c) => {
 });
 
 // Products
-app.get("/make-server-8d4aec83/products", async (c) => {
+app.get("/server/products", async (c) => {
   try {
     const items = await kv.getByPrefix("product:");
     return c.json({ products: items });
@@ -84,8 +85,8 @@ app.get("/make-server-8d4aec83/products", async (c) => {
   }
 });
 
-// UPDATED POST ROUTE: Now saves images and bulkPricing arrays
-app.post("/make-server-8d4aec83/products", async (c) => {
+// Create Product
+app.post("/server/products", async (c) => {
   try {
     const body = await c.req.json();
     const id = body.id || crypto.randomUUID();
@@ -111,8 +112,8 @@ app.post("/make-server-8d4aec83/products", async (c) => {
   }
 });
 
-// NEW PUT ROUTE: Allows you to edit existing products
-app.put("/make-server-8d4aec83/products/:id", async (c) => {
+// Edit Product
+app.put("/server/products/:id", async (c) => {
   try {
     const id = c.req.param("id");
     const existing = await kv.get(`product:${id}`);
@@ -129,7 +130,7 @@ app.put("/make-server-8d4aec83/products/:id", async (c) => {
   }
 });
 
-app.delete("/make-server-8d4aec83/products/:id", async (c) => {
+app.delete("/server/products/:id", async (c) => {
   try {
     await kv.del(`product:${c.req.param("id")}`);
     return c.json({ ok: true });
@@ -140,7 +141,7 @@ app.delete("/make-server-8d4aec83/products/:id", async (c) => {
 });
 
 // Orders
-app.get("/make-server-8d4aec83/orders", async (c) => {
+app.get("/server/orders", async (c) => {
   try {
     const items = await kv.getByPrefix("order:");
     return c.json({ orders: items });
@@ -150,7 +151,7 @@ app.get("/make-server-8d4aec83/orders", async (c) => {
   }
 });
 
-app.post("/make-server-8d4aec83/orders", async (c) => {
+app.post("/server/orders", async (c) => {
   try {
     const body = await c.req.json();
     const id = body.id || crypto.randomUUID();
@@ -170,7 +171,7 @@ app.post("/make-server-8d4aec83/orders", async (c) => {
   }
 });
 
-app.put("/make-server-8d4aec83/orders/:id", async (c) => {
+app.put("/server/orders/:id", async (c) => {
   try {
     const id = c.req.param("id");
     const existing = await kv.get(`order:${id}`);
@@ -186,7 +187,7 @@ app.put("/make-server-8d4aec83/orders/:id", async (c) => {
 });
 
 // Seed sample products
-app.post("/make-server-8d4aec83/seed", async (c) => {
+app.post("/server/seed", async (c) => {
   try {
     const force = c.req.query("force") === "1";
     const existing = await kv.getByPrefix("product:");
